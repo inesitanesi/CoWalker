@@ -1,0 +1,32 @@
+{
+    "$schema":  "https://json-schema.org/draft/2020-12/schema",
+    "title": "grafo",
+    "type": "object",
+    "properties": {
+        "nodos": {
+            "type": "object",
+            "properties": {
+                "nombreNodo": {"type": "string"},
+                "latitud": {"type": "number"},
+                "longitud": {"type": "number"},
+                "conexiones": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "nodo_destino": {"type": "string"},
+                            "distancia": {"type": "number"},
+                            "medios_transporte": {
+                                "type": "array",
+                                "items": {"type": "string"}
+                            }
+                        },
+                        "required": ["nodo_destino", "distancia", "medios_transporte"]
+                    }
+                }
+            },
+            "required": ["nombre", "latitud", "longitud", "conexiones"]
+        }
+    },
+    "required": ["nodos"]
+}
