@@ -17,3 +17,10 @@ Esta aplicación se encarga de realizar planes de viajes minimizando el impacto 
 ## Futuras mejoras
 - Elegir el coche que tienes porque el consumo varía.
 - Considerar nuevos transportes, por ejemplo, barcos.
+
+## Ejemplos
+### 2 personas
+![Diagrama 2 personas](ejemplo2pers.drawio.png)
+
+### 5 personas
+![Diagrama 5 personas](ejemplo5pers.drawio.png)
