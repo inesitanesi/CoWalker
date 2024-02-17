@@ -1,8 +1,8 @@
 from geopy import distance
 import osmnx as ox
 import pandas as pd
-import numbpy as np
-import json
+import numpy as np
+import osrm
 
 class Nodo:
     def __init__(self, nombre, latitud, longitud):
@@ -30,20 +30,57 @@ class Conexion:
         self.medio_transporte = medio_transporte
         self.distancia = calcular_distancia()
         self.consumo = calcular_consumo()
+
+    
         
     def calcular_distancia(self):
         origenData = (self.origen.latitud, self.origen.longitud)
         destinoData = (self.destino.latitud, self.destino.longitud)
-        distancia = distance.distance(origenData, destinoData).kilometers
-        return distancia
+        
+        
+        if (self.medio_transporte=='coche'):
+        
+            osrm_url = "http://router.project-osrm.org/route/v1/driving/{},{};{},{}?steps=true"
+
+            # Format the URL with the coordinates of the starting and ending points
+            url = osrm_url.format(origenData[1], origenData[0], destinoData[1], destinoData[0])
+
+            # Send a GET request to the OSRM server
+            response = requests.get(url)
+
+            # Check if the request was successful
+            if response.status_code == 200:
+                # Extract the route information from the response
+                route_data = response.json()
+                
+                # Extract the distance and duration of the route
+                distancia = route_data["routes"][0]["distance"] / 1000  # Convert to kilometers
+                
+                return distancia
+            else:
+                print("Error:", response.status_code)
+        else:   
+            distancia = distance.distance(origenData, destinoData).kilometers
+            return distancia
 
     def calcular_consumo(self):
+        if self.medio_transporte == "coche":
+            dato=156
+        elif self.medio_transporte == "tren":
+            dato=14
+        elif self.medio_transporte == "avion":
+            dato=285
+        elif self.medio_transporte == "bus":
+            dato=68
+        elif self.medio_transporte == "walk":
+            dato=0
+        return dato*self.distancia
         
 
 class Grafo:
     def __init__(self):
         self.nodos = {}
-        self.conexiones ={}
+        self.conexiones ={}        
 
     def agregar_nodo(self, nodo):
         self.nodos[nodo.nombre] = nodo
