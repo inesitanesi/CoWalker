@@ -26,7 +26,12 @@ class Aeropuerto(Nodo):
     def __init__(self, nombre, latitud, longitud, iata):
         super().__init__(nombre, latitud, longitud)
         self.iata = iata
-
+        
+class Estacion(Nodo):
+    def __init__(self, nombre, latitud, longitud):
+        super().__init__(nombre, latitud, longitud)
+    
+    
 class Conexion:
     def __init__(self, origen, destino):
         self.origen = origen
@@ -72,8 +77,6 @@ class Conexion:
                     return False
             else:
                 return False
-        else:
-            return False
         
     def calcular_distancia(self):
         origenData = (self.origen.latitud, self.origen.longitud)
@@ -102,16 +105,17 @@ class Conexion:
                 distancia[0]=-1
             distancia[1]=ruta           #Añadimos distancia en coche
             #distancia[2]=ruta    
+            if isinstance(self.origen,Estacion) and isinstance(self.destino,Estacion):
+                distancia[2]=ruta*1.5   #Handicap por tren
+            else:
+                distancia[2]=-1
             
         else:
             print("Error:", response.status_code)
         
         ruta = distance.distance(origenData, destinoData).kilometers
         
-        if self.existeCamino('tren'):
-            distancia[2]=ruta
-        else:
-            distancia[2]=-1
+        
             
         if self.existeCamino('avion'):
             distancia[3]=ruta
@@ -141,7 +145,8 @@ class Grafo:
         self.nodos[nodo.nombre] = nodo
         if not isinstance(nodo,Aeropuerto):
             self.anadir_aeropuertos(nodo,50*1000)
-        #self.anadir_estaciones(nodo,20000)
+        if not isinstance(nodo,Estacion):
+            self.anadir_estaciones(nodo,15000)
         
     def conexiones_todas(self):
         for origen in self.nodos.values():
@@ -167,7 +172,7 @@ class Grafo:
     def obtener_conexiones_origen(self,nodo):
         data =[]
         for conex in self.conexiones.values():
-            if conex.origen == nodo.nombre:
+            if conex.origen.nombre == nodo.nombre:
                 data.append(conex)
         return data
 
@@ -192,11 +197,11 @@ class Grafo:
 
     #Función para añadir las estaciones cercanas a un nodo
     def anadir_estaciones(self, origen, distancia):
-        tags = {"public_transport": "station"}         #Tipo de servicio
+        tags = {"railway": "station"}         #Tipo de servicio
         places = ox.features_from_point((origen.latitud, origen.longitud), tags, dist=distancia)   #Recuperamos datos
         df = pd.DataFrame(places)
         for iter,place in df.iterrows():
-            estacion = Nodo(place['name'], place['geometry'].centroid.y,place['geometry'].centroid.x)
+            estacion = Estacion(place['name'], place['geometry'].centroid.y,place['geometry'].centroid.x)
             self.agregar_nodo(estacion)
 
     

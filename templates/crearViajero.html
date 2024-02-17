@@ -17,19 +17,26 @@
 
 {% block content %}
   <div class="container">
-    <h2 class="mt-5">Crear viajero X</h2>
-    <form>
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
+    <h2 class="mt-5">Crear viajeros</h2>
+    <div id="integrantes">
+      <!-- Bucle for para generar múltiples secciones de formulario -->
+      {% for integrante in range(integrantes) %}
+      <div class="integrante">
+        <h2>Integrante número {{ integrante }}</h2>
+        <form>
+          <div class="form-group">
+            <label for="nombre{{ integrante }}">Nombre:</label>
+            <input type="text" class="form-control" id="nombre{{ integrante }}" placeholder="Ingrese su nombre">
+          </div>
+          <div class="form-group">
+            <label for="map{{ integrante }}">Origen:</label>
+            <div id="map{{ integrante }}" class="map"></div>
+          </div>
+          <button type="submit" class="btn btn-primary">Siguiente</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="map">Origen:</label>
-        <!-- Campo para mostrar el mapa -->
-        <div id="map"></div>
-      </div>
-      <button type="submit" class="btn btn-primary">Siguiente</button>
-    </form>
+      {% endfor %}
+    </div>    
   </div>
 
   <!-- Scripts de Bootstrap y Leaflet -->
