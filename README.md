@@ -15,6 +15,10 @@ Esta aplicación se encarga de realizar planes de viajes minimizando el impacto 
 - Se establece un límite de 2km a la redonda para caminar, si se pasa de ese límite el algoritmo buscará una forma para que vaya en transporte público.
 
 ## Modo de uso
+- Instalar los requerimientos
+```
+pip install -r requirements.txt
+```
 - Ejecutar el archivo app.py
 ```
 python app.py
