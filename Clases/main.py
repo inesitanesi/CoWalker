@@ -1,3 +1,7 @@
+# CoWalker
+# Copyright (c) 2024, Elena Fernández del Sel, Nicolás Fernández Otero, Roberto Tato Lage, Inés Quintana Raña
+# SPDX-License-Identifier: MIT
+
 from clases import *
 
 def main():

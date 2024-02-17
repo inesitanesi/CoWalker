@@ -25,6 +25,7 @@ def validar_datos(schema_file, data_file):
         print("Los datos son válidos según el esquema.")
     except Exception as e:
         print("Error de validación:", e)
+    return data
 
 def dijkstra(nodos, conexiones, start):
     dijkstra_graph = {}
@@ -32,7 +33,6 @@ def dijkstra(nodos, conexiones, start):
         orig_nodo = conexion['nodo_origen']
         dest_nodo = conexion['nodo_destino']
         emision = min(filter(lambda x: x != -1, conexion['medios_transporte']))
-        medios_transporte = conexion['medios_transporte']
 
         if orig_nodo not in dijkstra_graph:
             dijkstra_graph[orig_nodo] = {}
@@ -45,8 +45,9 @@ def dijkstra(nodos, conexiones, start):
     emisiones = {start: (0, [start])}  # Mantenemos una lista de nodos visitados hasta ahora
     while heap:
         (emision, node) = heapq.heappop(heap)
-        if node in dijkstra_graph:
-            for vecino, (peso, medios_transporte) in dijkstra_graph[node].items():
+        if node in dijkstra_graph:            
+            for vecino, peso in dijkstra_graph[node].items():
+                
                 nueva_emision = emision + peso
                 if vecino not in emisiones or nueva_emision < emisiones[vecino][0]:
                     nuevo_camino = emisiones[node][1] + [vecino]  # Nuevo camino
@@ -85,10 +86,10 @@ def funcion_opt(nodos, conexiones, start_node, end_node):
 
 
 schema = 'schema-json.json'
-data = 'ejemplo.json'
-validar_datos(schema, data)
+data='ejemplo.json'
+data=validar_datos(schema, data)
 
-start_node = "Inés"
+start_node = "Ines"
 end_node = "Aeropuerto Santiago"
 co2_optimized_distance, medios_transporte_camino = funcion_opt(data["nodos"], data["conexiones"], start_node, end_node)
 print("Distancia óptima para Inés:", co2_optimized_distance)
@@ -107,4 +108,11 @@ start_node = "Rober"
 co2_optimized_distance, medios_transporte_camino = funcion_opt(data["nodos"], data["conexiones"], start_node, end_node)
 print("Distancia óptima para Rober:", co2_optimized_distance)
 for origen, destino, medios_transporte in medios_transporte_camino:
-    print(f"De {origen} a {destino}: {medios_transporte}")
+    if medios_transporte == 0:
+        print(f"De {origen} a {destino}: andando")
+    elif medios_transporte == 1:
+        print(f"De {origen} a {destino}: coche")
+    elif medios_transporte == 2:
+        print(f"De {origen} a {destino}: tren")
+    elif medios_transporte == 3:
+        print(f"De {origen} a {destino}: avión")

@@ -1,7 +1,7 @@
 {
     "nodos":[
         {
-            "nombre": "Inés",
+            "nombre": "Ines",
             "persona": 1,
             "latitud": 43.3532060,
             "longitud": -8.2561031
@@ -19,19 +19,19 @@
             "longitud": -8.3686987
         },
         {
-            "nombre": "Bus Coruña",
+            "nombre": "Bus Coruna",
             "persona": 0,
             "latitud": 43.3533367,
             "longitud": -8.4054422 
         },
         {
-            "nombre": "Tren Coruña",
+            "nombre": "Tren Coruna",
             "persona": 0,
             "latitud": 43.3519366,
             "longitud": -8.4100134 
         },
         {
-            "nombre": "Aeropuerto Coruña",
+            "nombre": "Aeropuerto Coruna",
             "persona": 0,
             "latitud": 43.3007949,
             "longitud": -8.3825940 
@@ -51,33 +51,33 @@
     ],
     "conexiones": [
         {   
-            "nodo_origen": "Inés",
+            "nodo_origen": "Ines",
             "nodo_destino": "Rober",
             "medios_transporte": [-1,826.8,-1,-1]
         },
         {
-            "nodo_origen": "Inés",
+            "nodo_origen": "Ines",
             "nodo_destino": "Tren O Burgo",
             "medios_transporte": [-1,1544.4,-1,-1]
         },
         {
-            "nodo_origen": "Inés",
-            "nodo_destino": "Aeropuerto Coruña",
+            "nodo_origen": "Ines",
+            "nodo_destino": "Aeropuerto Coruna",
             "medios_transporte": [-1,1825.2,-1,-1]
         },
         {
-            "nodo_origen": "Inés",
+            "nodo_origen": "Ines",
             "nodo_destino": "Aeropuerto Santiago",
             "medios_transporte": [-1,8268,-1,-1]
         },
         {
             "nodo_origen": "Rober",
-            "nodo_destino": "Bus Coruña",
+            "nodo_destino": "Bus Coruna",
             "medios_transporte": [-1,1185.6,-1,-1]
         },
         {
             "nodo_origen": "Rober",
-            "nodo_destino": "Tren Coruña",
+            "nodo_destino": "Tren Coruna",
             "medios_transporte": [-1,1248,-1,-1]
         },
         {
@@ -87,7 +87,7 @@
         },
         {
             "nodo_origen": "Rober",
-            "nodo_destino": "Aeropuerto Coruña",
+            "nodo_destino": "Aeropuerto Coruna",
             "medios_transporte": [-1,982.8,-1,-1]
         },
         {
@@ -102,17 +102,17 @@
         },
         {
             "nodo_origen": "Tren O Burgo",
-            "nodo_destino": "Bus Coruña",
+            "nodo_destino": "Bus Coruna",
             "medios_transporte": [-1,764.4,-1,-1]
         },
         {
             "nodo_origen": "Tren O Burgo",
-            "nodo_destino": "Tren Coruña",
+            "nodo_destino": "Tren Coruna",
             "medios_transporte": [-1,1544.4,-1,-1]
         },
         {
             "nodo_origen": "Tren O Burgo",
-            "nodo_destino": "Aeropuerto Coruña",
+            "nodo_destino": "Aeropuerto Coruna",
             "medios_transporte": [0,312,-1,-1]
         },
         {
@@ -126,47 +126,47 @@
             "medios_transporte": [-1,7332,-1,-1]
         },
         {
-            "nodo_origen": "Aeropuerto Coruña",
-            "nodo_destino": "Bus Coruña",
+            "nodo_origen": "Aeropuerto Coruna",
+            "nodo_destino": "Bus Coruna",
             "medios_transporte": [-1,920.4,-1,-1]
         },
         {
-            "nodo_origen": "Aeropuerto Coruña",
-            "nodo_destino": "Tren Coruña",
+            "nodo_origen": "Aeropuerto Coruna",
+            "nodo_destino": "Tren Coruna",
             "medios_transporte": [-1,920.4,-1,-1]
         },
         {
-            "nodo_origen": "Aeropuerto Coruña",
+            "nodo_origen": "Aeropuerto Coruna",
             "nodo_destino": "Tren Santiago",
             "medios_transporte": [-1,7706.4,-1,-1]
         },
         {
-            "nodo_origen": "Aeropuerto Coruña",
+            "nodo_origen": "Aeropuerto Coruna",
             "nodo_destino": "Aeropuerto Santiago",
             "medios_transporte": [-1,7082.4,-1,12939]
         },
         {
-            "nodo_origen": "Bus Coruña",
-            "nodo_destino": "Tren Coruña",
+            "nodo_origen": "Bus Coruna",
+            "nodo_destino": "Tren Coruna",
             "medios_transporte": [0,62.4,-1,-1]
         },
         {
-            "nodo_origen": "Bus Coruña",
+            "nodo_origen": "Bus Coruna",
             "nodo_destino": "Tren Santiago",
             "medios_transporte": [-1,8548.8,-1,-1]
         },
         {
-            "nodo_origen": "Bus Coruña",
+            "nodo_origen": "Bus Coruna",
             "nodo_destino": "Aeropuerto Santiago",
             "medios_transporte": [-1,7956,-1,-1]
         },
         {
-            "nodo_origen": "Tren Coruña",
+            "nodo_origen": "Tren Coruna",
             "nodo_destino": "Tren Santiago",
             "medios_transporte": [-1,8517.6,764.4,-1]
         },
         {
-            "nodo_origen": "Tren Coruña",
+            "nodo_origen": "Tren Coruna",
             "nodo_destino": "Aeropuerto Santiago",
             "medios_transporte": [-1,7940.4,-1,-1]
         },

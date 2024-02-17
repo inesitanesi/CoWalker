@@ -1,3 +1,7 @@
+# CoWalker
+# Copyright (c) 2024, Elena Fernández del Sel, Nicolás Fernández Otero, Roberto Tato Lage, Inés Quintana Raña
+# SPDX-License-Identifier: MIT
+
 from geopy import distance
 import osmnx as ox
 import pandas as pd
@@ -144,7 +148,7 @@ class Grafo:
         nodo.anadir_persona()
         self.nodos[nodo.nombre] = nodo
         if not isinstance(nodo,Aeropuerto):
-            self.anadir_aeropuertos(nodo,50*1000)
+            self.anadir_aeropuertos(nodo,50000)
         if not isinstance(nodo,Estacion):
             self.anadir_estaciones(nodo,15000)
         
