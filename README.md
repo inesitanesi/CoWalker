@@ -47,3 +47,5 @@ python app.py
 ![Diagrama 5 personas](ejemplo5pers.drawio.png)
 
 # Licencia
+MIT
+
