@@ -73,7 +73,7 @@ class Conexion:
             else:
                 return False
         else:
-            return True
+            return False
         
     def calcular_distancia(self):
         origenData = (self.origen.latitud, self.origen.longitud)
@@ -122,7 +122,7 @@ class Conexion:
 
     def calcular_consumo(self):
         d1 = {
-            "walk": self.distancia[0],
+            "walk": -1 if self.distancia[0] == -1 else 0,
             "coche": -1 if self.distancia[1] == -1 else 156 * self.distancia[1],
             #"bus": -1 if self.distancia[2] == -1 else 68 * self.distancia[2],
             "tren": -1 if self.distancia[2] == -1 else 14 * self.distancia[2],
@@ -139,7 +139,8 @@ class Grafo:
     def nuevo_persona(self,nodo):
         nodo.anadir_persona()
         self.nodos[nodo.nombre] = nodo
-        self.anadir_aeropuertos(nodo,50*1000)
+        if not isinstance(nodo,Aeropuerto):
+            self.anadir_aeropuertos(nodo,50*1000)
         #self.anadir_estaciones(nodo,20000)
         
     def conexiones_todas(self):
@@ -147,7 +148,8 @@ class Grafo:
             for destino in self.nodos.values():
                 if origen.nombre != destino.nombre:
                     self.conexiones[origen.nombre+'-'+destino.nombre]=Conexion(origen,destino)
-                    #print(self.conexiones[origen.nombre+'-'+destino.nombre].medios_transporte)
+                    print(f'{origen.nombre+'-'+destino.nombre}: ')
+                    print(self.conexiones[origen.nombre+'-'+destino.nombre].medios_transporte)
 
     
     def agregar_nodo(self, nodo):
@@ -161,6 +163,13 @@ class Grafo:
 
     def obtener_conexion(self, nombre):
         return self.conexion.get(nombre)
+    
+    def obtener_conexiones_origen(self,nodo):
+        data =[]
+        for conex in self.conexiones.values():
+            if conex.origen == nodo.nombre:
+                data.append(conex)
+        return data
 
     def __str__(self):
         return f"Grafo con {len(self.nodos)} nodos"

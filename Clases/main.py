@@ -1,18 +1,15 @@
 from clases import *
 
 def main():
-    coruna=Nodo("coruna", 43.36223966912647, -8.411158701710125)
-    oleiros=Nodo("madrid",40.49420298981081, -3.7107454048199218)
-    a1= Aeropuerto("santiago",42.89028498204115, -8.417720821165457,'SCQ')
-    a2= Aeropuerto("madrid",40.49382107435963, -3.561814510964957,'MAD')
+    nodos=[Nodo("oleiros", 43.34208844419752, -8.35115125406714),Nodo("pontevedra",42.42906091932056, -8.63078074971588),Nodo("nigran",42.13862307328924, -8.805517871019621),Nodo("ponteareas",42.17579153763052, -8.502502935417787),Aeropuerto("santiago",42.89028498204115, -8.417720821165457,'SCQ')]
     
     grafo= Grafo()
     
-    grafo.nuevo_persona(coruna)
-    grafo.nuevo_persona(oleiros)
+    for nodo in nodos:
+        grafo.nuevo_persona(nodo)
+        
     grafo.conexiones_todas()
-    print(grafo.nodos)
-    print(grafo.conexiones)    
+    print(grafo.obtener_conexiones_origen(nodos[0]))
 
 if __name__ == "__main__":
     main()

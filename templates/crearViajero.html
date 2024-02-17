@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'base.html' %}
+
+{% block head %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario para App Móvil</title>
@@ -13,8 +13,9 @@
       height: 300px;
     }
   </style>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
   <div class="container">
     <h2 class="mt-5">Crear viajero X</h2>
     <form>
@@ -56,5 +57,4 @@
     });
 
   </script>
-</body>
-</html>
+{% endblock %}

@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario para App Móvil</title>
+{% extends 'base.html' %}
+
+{% block head %}
   <!-- Estilos de Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Estilos para el mapa -->
@@ -13,11 +10,12 @@
       height: 300px;
     }
   </style>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
   <div class="container">
     <h2 class="mt-5">Crear viaje</h2>
-    <form>
+    <form method="post" action="{{ url_for('crearIntegrante') }}">
       <div class="form-group">
         <label for="nombre">Nombre del viaje:</label>
         <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
@@ -60,5 +58,4 @@
     });
 
   </script>
-</body>
-</html>
+{% endblock %}
