@@ -16,7 +16,6 @@
 {% endblock %}
 
 {% block content %}
-  numero = {{integrantes}}
   <div class="container">
     <h2 class="mt-5">Crear viajeros</h2>
     <div id="integrantes">
@@ -69,9 +68,11 @@
       });
     }
 
+    var integrantes = {{ integrantes }};
+
     // Inicializar los mapas al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
-      for (var i = 0; i < numero; i++) {
+      for (var i = 0; i < integrantes; i++) {
         initMap(i);
       }
     });

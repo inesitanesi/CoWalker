@@ -4,7 +4,7 @@ from Clases.clases import *
 
 app = Flask(__name__)
 app.secret_key = 'asdfholajklñ'
-viaje=None
+viaje = Viaje()
 
 @app.route('/', methods=['GET', 'POST'])
 def crearViaje():
@@ -13,8 +13,8 @@ def crearViaje():
         numeroIntegrantes = request.form['integrantes']
         latitud = request.form['latitud']
         longitud = request.form['longitud']
-
-        viaje = Viaje(nombre, Nodo("destino", latitud, longitud))
+        viaje.set_nombre(nombre)
+        viaje.set_destino(Nodo("destino", latitud, longitud))
 
         return redirect(url_for('crearIntegrante', integrantes=numeroIntegrantes))
     return render_template('crearViaje.html')
