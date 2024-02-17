@@ -28,7 +28,9 @@ python app.py
 - En la última ventana se verá el trayecto de los integrantes del grupo.
 
 ## Qué funciona
-
+- El ejemplo de juguete: ```ejemplo2pers.py```, con el ```ejemplo.json``` que sigue el esquema ```schema-json.json```. Están en la carperta **.Clases.**
+- La interfaz gráfica
+- La creación de grafos
 
 ## Contribuciones
 - Para contribuir, crea una nueva branch e introduce el código deseado. Tras revisar el código, veremos si se incluye el nuevo código.
@@ -42,13 +44,15 @@ python app.py
 ## Futuras mejoras
 - Elegir el coche que tienes porque el consumo varía.
 - Considerar nuevos transportes, por ejemplo, buses o barcos.
+- Optimizar el algoritmo de búsqueda
+- Unión de la interfaz gráfica con el algoritmo
 
 ## Ejemplos
 ### 2 personas
+Empezamos con un ejemplo sencillo donde 2 personas (Inés y Rober) van a ir al Aeropuerto de Santiago, para eso usamos los siguientes nodos y conexiones. El número de las conexiones indica la distancia en kilómetros.
 ![Diagrama 2 personas](ejemplo2pers.drawio.png)
+El resultado de la ejecución es el siguiente
 
-### 5 personas
-![Diagrama 5 personas](ejemplo5pers.drawio.png)
 
 # Licencia
 MIT
