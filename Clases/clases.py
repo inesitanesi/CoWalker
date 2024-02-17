@@ -37,7 +37,7 @@ class Conexion:
     def existeCamino(self, medio):
         if medio == 'avion':
             if isinstance(self.origen,Aeropuerto) and isinstance(self.destino,Aeropuerto):
-                API_KEY = "MuW08RGdOKolSVzEiRKYauGB4LTY"
+                API_KEY = "CrSmr145BGGAxnDfiBsW1hoJiTY5"
                 # Define the endpoint you want to access
                 endpoint = "https://test.api.amadeus.com/v2/shopping/flight-offers"
 
@@ -78,7 +78,7 @@ class Conexion:
     def calcular_distancia(self):
         origenData = (self.origen.latitud, self.origen.longitud)
         destinoData = (self.destino.latitud, self.destino.longitud)
-        distancia = [-1,-1,-1,-1,-1]        
+        distancia = [-1,-1,-1,-1]        
         
         osrm_url = "http://router.project-osrm.org/route/v1/driving/{},{};{},{}?steps=true"
 
@@ -112,6 +112,7 @@ class Conexion:
             distancia[2]=ruta
         else:
             distancia[2]=-1
+            
         if self.existeCamino('avion'):
             distancia[3]=ruta
         else:
@@ -124,8 +125,8 @@ class Conexion:
             "walk": self.distancia[0],
             "coche": -1 if self.distancia[1] == -1 else 156 * self.distancia[1],
             #"bus": -1 if self.distancia[2] == -1 else 68 * self.distancia[2],
-            "tren": -1 if self.distancia[3] == -1 else 14 * self.distancia[3],
-            "avion": -1 if self.distancia[4] == -1 else 285 * self.distancia[4]
+            "tren": -1 if self.distancia[2] == -1 else 14 * self.distancia[2],
+            "avion": -1 if self.distancia[3] == -1 else 285 * self.distancia[3]
         }
         return d1
                   
@@ -138,14 +139,15 @@ class Grafo:
     def nuevo_persona(self,nodo):
         nodo.anadir_persona()
         self.nodos[nodo.nombre] = nodo
-        self.anadir_aeropuertos(nodo,20000)
+        self.anadir_aeropuertos(nodo,50*1000)
         #self.anadir_estaciones(nodo,20000)
-        print(self.nodos)
         
     def conexiones_todas(self):
         for origen in self.nodos.values():
             for destino in self.nodos.values():
-                self.conexiones[origen.nombre]=Conexion(origen,destino)
+                if origen.nombre != destino.nombre:
+                    self.conexiones[origen.nombre+'-'+destino.nombre]=Conexion(origen,destino)
+                    #print(self.conexiones[origen.nombre+'-'+destino.nombre].medios_transporte)
 
     
     def agregar_nodo(self, nodo):
