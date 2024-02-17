@@ -22,16 +22,18 @@ def crearViaje():
 @app.route('/integrantes/<int:integrantes>', methods=['GET', 'POST'])
 def crearIntegrante(integrantes):
     if request.method == 'POST':
-        for i in range(integrantes):                        
-            viaje.agregar_nodo(Nodo(request.form[f'nombre{i}'],request.form[f'latitud{i}'],request.form[f'longitud{i}']))
-
-        return redirect(url_for('viaje'))
+        for i in range(integrantes):    
+            nombre  = request.form[f'nombre{i}']
+            latitud = request.form[f'latitud{i}']
+            longitud = request.form[f'longitud{i}']
+            viaje.agregar_nodo(Nodo(nombre, latitud, longitud))
+        return redirect(url_for('verViaje'))
     return render_template('crearViajero.html', integrantes = integrantes)
 
 @app.route('/viaje', methods=['GET', 'POST'])
 def verViaje():
     
-    return render_template('rutas.html')
+    return render_template('rutas.html', viaje=viaje)
 
 if __name__ == '__main__':
     app.run(debug=True)

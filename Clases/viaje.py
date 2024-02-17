@@ -1,7 +1,7 @@
 class Viaje:
     def __init__(self):
         
-        self.nodos = {}
+        self.nodos = []
         
     def set_nombre(self,nombre):
         self.nombre=nombre
