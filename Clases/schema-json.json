@@ -6,27 +6,32 @@
         "nodos": {
             "type": "object",
             "properties": {
-                "nombreNodo": {"type": "string"},
+                "nombre": {"type": "string"},
+                "persona": {"type": "number"},
                 "latitud": {"type": "number"},
-                "longitud": {"type": "number"},
-                "conexiones": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "nodo_destino": {"type": "string"},
-                            "distancia": {"type": "number"},
-                            "medios_transporte": {
-                                "type": "array",
-                                "items": {"type": "string"}
-                            }
-                        },
-                        "required": ["nodo_destino", "distancia", "medios_transporte"]
-                    }
-                }
+                "longitud": {"type": "number"}
             },
-            "required": ["nombre", "latitud", "longitud", "conexiones"]
+            "required": ["nombre", "persona","latitud", "longitud", "conexiones"]
+        },
+        "conexiones": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "nodo_origen": {"type": "object"},
+                    "nodo_destino": {"type": "object"},
+                    "distancia": {
+                        "type": "array",
+                        "items": {"type": "number"}
+                    },
+                    "medios_transporte": {
+                        "type": "array",
+                        "items": {"type": "number"}
+                    }
+                },
+                "required": ["nodo_origen","nodo_destino", "medios_transporte"]
+            }
         }
     },
-    "required": ["nodos"]
+    "required": ["nodos","conexiones"]
 }
