@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ viaje.nombre }}</title>
-  <!-- Estilos de Bootstrap -->
+{% extends 'base.html' %}
+
+{% block head %}
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
   <div class="container">
-    <h2 class="mt-5">{{ viaje.nombre }}</h2>
+    <h2 class="mt-5">Viaje: {{ viaje.nombre }}</h2>
+    <h3> Destino:{{ viaje.destino.latitud }}, {{ viaje.destino.longitud }} </h3>
     <div class="row">
-      {% for viajero in viaje.viajeros %}
+      {% for viajero in viaje.nodos %}
       <div class="col-md-6">
-        <h4>{{ viajero.nombre }}</h4>
+        <h4>Nombre: {{ viajero.nombre }}</h4>
+        <h6>Origen: {{ viajero.latitud }}, {{ viajero.longitud }}</h6>
         <ol>
-          {% for punto in viajero.puntos_importantes %}
+          <!-- {% for punto in viajero.puntos_importantes %}
           <li>{{ punto }}</li>
-          {% endfor %}
+          {% endfor %} -->
         </ol>
       </div>
       {% endfor %}
@@ -28,5 +27,5 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+
+{% endblock %}

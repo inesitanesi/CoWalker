@@ -200,6 +200,7 @@ class Grafo:
         tags = {"railway": "station"}         #Tipo de servicio
         places = ox.features_from_point((origen.latitud, origen.longitud), tags, dist=distancia)   #Recuperamos datos
         df = pd.DataFrame(places)
+        df = df[df['building'] == 'train_station']
         for iter,place in df.iterrows():
             estacion = Estacion(place['name'], place['geometry'].centroid.y,place['geometry'].centroid.x)
             self.agregar_nodo(estacion)

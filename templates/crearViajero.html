@@ -9,7 +9,7 @@
   <!-- Estilos para el mapa -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    #map {
+    .map {
       height: 300px;
     }
   </style>
@@ -20,22 +20,25 @@
     <h2 class="mt-5">Crear viajeros</h2>
     <div id="integrantes">
       <!-- Bucle for para generar múltiples secciones de formulario -->
+      <form method="post">
       {% for integrante in range(integrantes) %}
       <div class="integrante">
         <h2>Integrante número {{ integrante }}</h2>
-        <form>
           <div class="form-group">
             <label for="nombre{{ integrante }}">Nombre:</label>
-            <input type="text" class="form-control" id="nombre{{ integrante }}" placeholder="Ingrese su nombre">
+            <input type="text" class="form-control" id="nombre{{ integrante }}" name="nombre{{ integrante }}" placeholder="Ingrese su nombre">
           </div>
           <div class="form-group">
-            <label for="map{{ integrante }}">Origen:</label>
-            <div id="map{{ integrante }}" class="map"></div>
+            <label for="map">Origen:</label>
+            <!-- Campo para mostrar el mapa -->
+            <div class="map" id="map{{ integrante }}"></div>
+            <input type="hidden" id="latitud{{ integrante }}" name="latitud{{ integrante }}">
+            <input type="hidden" id="longitud{{ integrante }}" name="longitud{{ integrante }}">
           </div>
-          <button type="submit" class="btn btn-primary">Siguiente</button>
-        </form>
       </div>
       {% endfor %}
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
     </div>    
   </div>
 
@@ -46,22 +49,33 @@
   <!-- Scripts para Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Inicializar el mapa con Leaflet
-    var map = L.map('map').setView([40.7128, -74.0060], 12);
+    // Función para inicializar un mapa
+    function initMap(mapId) {
+      var map = L.map('map'+mapId).setView([43.333288044888135, -8.409589541399267], 12);
 
-    // Agregar una capa de mapa de OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
-    // Agregar marcador
-    var marker = L.marker([40.7128, -74.0060], { draggable: false }).addTo(map);
+      var marker = L.marker([43.333288044888135, -8.409589541399267], { draggable: false }).addTo(map);
 
-    // Evento de clic en el mapa
-    map.on('click', function(e) {
-      var latlng = e.latlng;
-      marker.setLatLng(latlng);
+      map.on('click', function(e) {
+        var latlng = e.latlng;
+        marker.setLatLng(latlng);
+        // Actualizar campos de latitud y longitud
+        document.getElementById('latitud' + mapId).value = latlng.lat;
+        document.getElementById('longitud' + mapId).value = latlng.lng;
+      });
+    }
+
+    var integrantes = {{ integrantes }};
+
+    // Inicializar los mapas al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      for (var i = 0; i < integrantes; i++) {
+        initMap(i);
+      }
     });
-
   </script>
+
 {% endblock %}
