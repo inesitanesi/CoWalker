@@ -51,9 +51,10 @@ python app.py
 ### 2 personas
 Empezamos con un ejemplo sencillo donde 2 personas (Inés y Rober) van a ir al Aeropuerto de Santiago, para eso usamos los siguientes nodos y conexiones. El número de las conexiones indica la distancia en kilómetros.
 ![Diagrama 2 personas](ejemplo2pers.drawio.png)
+
 El resultado de la ejecución es el siguiente
+![Resultado ejecución 2 personas](ejemplo2persejec.jpeg)
 
-
-# Licencia
+## Licencia
 MIT
 
