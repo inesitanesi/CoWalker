@@ -1,5 +1,5 @@
 class Viaje:
-    def __init__(self, nombre, origen):
+    def __init__(self, nombre, destino):
         self.nombre = nombre
         self.destino = destino
         self.nodos = {}

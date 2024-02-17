@@ -10,7 +10,7 @@ def main():
         grafo.nuevo_persona(nodo)
         
     grafo.conexiones_todas()
-    print(grafo.obtener_conexiones_origen(grafo.obtener_nodo('oleiros')))
+    
 
 if __name__ == "__main__":
     main()
