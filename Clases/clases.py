@@ -13,7 +13,7 @@ class Nodo:
         #self.conexiones = {}  # Diccionario para almacenar las conexiones con otros nodos
         #Una función para añadir todas las conexiones
     
-    def anadir_persona():
+    def anadir_persona(self):
         self.persona+=1
     
     # def agregar_conexion(self, nodo_destino, distancia, medios_transporte):
@@ -100,8 +100,8 @@ class Conexion:
                 distancia[0]=ruta       #Permitimos andar
             else:
                 distancia[0]=-1
-            distancia[1]=ruta           #Añadimos distancia en coche y bus
-            distancia[2]=ruta    
+            distancia[1]=ruta           #Añadimos distancia en coche
+            #distancia[2]=ruta    
             
         else:
             print("Error:", response.status_code)
@@ -109,13 +109,13 @@ class Conexion:
         ruta = distance.distance(origenData, destinoData).kilometers
         
         if self.existeCamino('tren'):
+            distancia[2]=ruta
+        else:
+            distancia[2]=-1
+        if self.existeCamino('avion'):
             distancia[3]=ruta
         else:
             distancia[3]=-1
-        if self.existeCamino('avion'):
-            distancia[4]=ruta
-        else:
-            distancia[4]=-1
             
         return distancia
 
@@ -123,7 +123,7 @@ class Conexion:
         d1 = {
             "walk": self.distancia[0],
             "coche": -1 if self.distancia[1] == -1 else 156 * self.distancia[1],
-            "bus": -1 if self.distancia[2] == -1 else 68 * self.distancia[2],
+            #"bus": -1 if self.distancia[2] == -1 else 68 * self.distancia[2],
             "tren": -1 if self.distancia[3] == -1 else 14 * self.distancia[3],
             "avion": -1 if self.distancia[4] == -1 else 285 * self.distancia[4]
         }
@@ -135,6 +135,19 @@ class Grafo:
         self.nodos = {}
         self.conexiones ={}        
 
+    def nuevo_persona(self,nodo):
+        nodo.anadir_persona()
+        self.nodos[nodo.nombre] = nodo
+        self.anadir_aeropuertos(nodo,20000)
+        #self.anadir_estaciones(nodo,20000)
+        print(self.nodos)
+        
+    def conexiones_todas(self):
+        for origen in self.nodos.values():
+            for destino in self.nodos.values():
+                self.conexiones[origen.nombre]=Conexion(origen,destino)
+
+    
     def agregar_nodo(self, nodo):
         self.nodos[nodo.nombre] = nodo
 
@@ -142,7 +155,7 @@ class Grafo:
         return self.nodos.get(nombre)
 
     def agregar_conexion(self, nodo):
-        self.conexion[conexion.nombre] = nombre
+        self.conexion[self.conexion.nombre] = nodo
 
     def obtener_conexion(self, nombre):
         return self.conexion.get(nombre)
@@ -159,21 +172,21 @@ class Grafo:
         tags = {"aeroway": "aerodrome"}         #Tipo de servicio
         places = ox.features_from_point((origen.latitud, origen.longitud), tags, dist=distancia)   #Recuperamos datos
         df = pd.DataFrame(places)
-        df['ref'] = df['ref'].replace({'': np.nan})     
-        df = df.dropna(subset=['ref']) #Buscamos solo aeropuertos con IATA
+        df['iata'] = df['iata'].replace({'': np.nan})     
+        df = df.dropna(subset=['iata']) #Buscamos solo aeropuertos con IATA
         
-        for place in df:
-            aeropuerto = Aeropuerto(place['name'],place['geometry'].centroid.y,place['geometry'].centroid.x,place['ref'])
-            agregar_nodo(aeropuerto)
+        for iter,place in df.iterrows():
+            aeropuerto = Aeropuerto(place['name'],place['geometry'].centroid.y,place['geometry'].centroid.x,place['iata'])
+            self.agregar_nodo(aeropuerto)
 
     #Función para añadir las estaciones cercanas a un nodo
     def anadir_estaciones(self, origen, distancia):
         tags = {"public_transport": "station"}         #Tipo de servicio
         places = ox.features_from_point((origen.latitud, origen.longitud), tags, dist=distancia)   #Recuperamos datos
         df = pd.DataFrame(places)
-        for place in df:
+        for iter,place in df.iterrows():
             estacion = Nodo(place['name'], place['geometry'].centroid.y,place['geometry'].centroid.x)
-            agregar_nodo(estacion)
+            self.agregar_nodo(estacion)
 
     
         

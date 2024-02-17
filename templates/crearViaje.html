@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario para App Móvil</title>
+  <!-- Estilos de Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Estilos para el mapa -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mt-5">Crear viaje</h2>
+    <form>
+      <div class="form-group">
+        <label for="nombre">Nombre del viaje:</label>
+        <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
+      </div>
+      <div class="form-group">
+        <label for="integrantes">Número de viajeros:</label>
+        <input type="number" class="form-control" id="integrantes" placeholder="Ingrese el número de integrantes">
+      </div>
+      <div class="form-group">
+        <label for="map">Ubicación:</label>
+        <!-- Campo para mostrar el mapa -->
+        <div id="map"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Siguiente</button>
+    </form>
+  </div>
+
+  <!-- Scripts de Bootstrap y Leaflet -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Scripts para Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Inicializar el mapa con Leaflet
+    var map = L.map('map').setView([40.7128, -74.0060], 12);
+
+    // Agregar una capa de mapa de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Agregar marcador
+    var marker = L.marker([40.7128, -74.0060], { draggable: false }).addTo(map);
+
+    // Evento de clic en el mapa
+    map.on('click', function(e) {
+      var latlng = e.latlng;
+      marker.setLatLng(latlng);
+    });
+
+  </script>
+</body>
+</html>
