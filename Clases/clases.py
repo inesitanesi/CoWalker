@@ -2,16 +2,20 @@ from geopy import distance
 import osmnx as ox
 import pandas as pd
 import numpy as np
-import osrm
+import requests
 
 class Nodo:
     def __init__(self, nombre, latitud, longitud):
         self.nombre = nombre
         self.latitud = latitud
         self.longitud = longitud
+        self.persona = 0
         #self.conexiones = {}  # Diccionario para almacenar las conexiones con otros nodos
         #Una función para añadir todas las conexiones
-
+    
+    def anadir_persona():
+        self.persona+=1
+    
     # def agregar_conexion(self, nodo_destino, distancia, medios_transporte):
     #     self.conexiones[nodo_destino] = {'distancia': distancia, 'medios_transporte': medios_transporte}
 
@@ -24,58 +28,107 @@ class Aeropuerto(Nodo):
         self.iata = iata
 
 class Conexion:
-    def __init__(self, origen, destino, medio_transporte):
+    def __init__(self, origen, destino):
         self.origen = origen
         self.destino = destino
-        self.medio_transporte = medio_transporte
-        self.distancia = calcular_distancia()
-        self.consumo = calcular_consumo()
+        self.distancia = self.calcular_distancia()
+        self.medios_transporte = self.calcular_consumo()
 
-    
+    def existeCamino(self, medio):
+        if medio == 'avion':
+            if isinstance(self.origen,Aeropuerto) and isinstance(self.destino,Aeropuerto):
+                API_KEY = "MuW08RGdOKolSVzEiRKYauGB4LTY"
+                # Define the endpoint you want to access
+                endpoint = "https://test.api.amadeus.com/v2/shopping/flight-offers"
+
+                params={
+                    'originLocationCode': f'{self.origen.iata}',
+                    'destinationLocationCode':f'{self.destino.iata}',
+                    'departureDate':'2024-02-19',
+                    'adults':'1',
+                    'nonStop':'true',
+                    'max':'1'
+                }
+
+                # Set up the request headers with your API credentials
+                headers = {
+                    "Authorization": f"Bearer {API_KEY}",
+                    "Content-Type": "application/json"
+                }
+
+                # Make the GET request to the Amadeus API
+                response = requests.get(endpoint, headers=headers,params=params)
+
+                # Check if the request was successful
+                if response.status_code == 200:
+                    # Extract and print the response data
+                    data = response.json()
+                    if data['meta']['count']!=0:
+                        return True
+                    else:
+                        return False
+                else:
+                    # Print the error message if the request was not successful
+                    return False
+            else:
+                return False
+        else:
+            return True
         
     def calcular_distancia(self):
         origenData = (self.origen.latitud, self.origen.longitud)
         destinoData = (self.destino.latitud, self.destino.longitud)
+        distancia = [-1,-1,-1,-1,-1]        
         
-        
-        if (self.medio_transporte=='coche'):
-        
-            osrm_url = "http://router.project-osrm.org/route/v1/driving/{},{};{},{}?steps=true"
+        osrm_url = "http://router.project-osrm.org/route/v1/driving/{},{};{},{}?steps=true"
 
-            # Format the URL with the coordinates of the starting and ending points
-            url = osrm_url.format(origenData[1], origenData[0], destinoData[1], destinoData[0])
+        # Format the URL with the coordinates of the starting and ending points
+        url = osrm_url.format(origenData[1], origenData[0], destinoData[1], destinoData[0])
 
-            # Send a GET request to the OSRM server
-            response = requests.get(url)
+        # Send a GET request to the OSRM server
+        response = requests.get(url)
 
-            # Check if the request was successful
-            if response.status_code == 200:
-                # Extract the route information from the response
-                route_data = response.json()
-                
-                # Extract the distance and duration of the route
-                distancia = route_data["routes"][0]["distance"] / 1000  # Convert to kilometers
-                
-                return distancia
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Extract the route information from the response
+            route_data = response.json()
+            
+            # Extract the distance and duration of the route
+            ruta = route_data["routes"][0]["distance"] / 1000  # Convert to kilometers
+            
+            if ruta <2:
+                distancia[0]=ruta       #Permitimos andar
             else:
-                print("Error:", response.status_code)
-        else:   
-            distancia = distance.distance(origenData, destinoData).kilometers
-            return distancia
+                distancia[0]=-1
+            distancia[1]=ruta           #Añadimos distancia en coche y bus
+            distancia[2]=ruta    
+            
+        else:
+            print("Error:", response.status_code)
+        
+        ruta = distance.distance(origenData, destinoData).kilometers
+        
+        if self.existeCamino('tren'):
+            distancia[3]=ruta
+        else:
+            distancia[3]=-1
+        if self.existeCamino('avion'):
+            distancia[4]=ruta
+        else:
+            distancia[4]=-1
+            
+        return distancia
 
     def calcular_consumo(self):
-        if self.medio_transporte == "coche":
-            dato=156
-        elif self.medio_transporte == "tren":
-            dato=14
-        elif self.medio_transporte == "avion":
-            dato=285
-        elif self.medio_transporte == "bus":
-            dato=68
-        elif self.medio_transporte == "walk":
-            dato=0
-        return dato*self.distancia
-        
+        d1 = {
+            "walk": self.distancia[0],
+            "coche": -1 if self.distancia[1] == -1 else 156 * self.distancia[1],
+            "bus": -1 if self.distancia[2] == -1 else 68 * self.distancia[2],
+            "tren": -1 if self.distancia[3] == -1 else 14 * self.distancia[3],
+            "avion": -1 if self.distancia[4] == -1 else 285 * self.distancia[4]
+        }
+        return d1
+                  
 
 class Grafo:
     def __init__(self):
