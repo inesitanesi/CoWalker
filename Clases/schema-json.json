@@ -4,22 +4,25 @@
     "type": "object",
     "properties": {
         "nodos": {
-            "type": "object",
-            "properties": {
-                "nombre": {"type": "string"},
-                "persona": {"type": "number"},
-                "latitud": {"type": "number"},
-                "longitud": {"type": "number"}
-            },
-            "required": ["nombre", "persona","latitud", "longitud", "conexiones"]
+            "type": "array",
+            "items": {
+              	"type": "object",
+                "properties": {
+                    "nombre": {"type": "string"},
+                    "persona": {"type": "number"},
+                    "latitud": {"type": "number"},
+                    "longitud": {"type": "number"}
+                },
+            	"required": ["nombre", "persona","latitud", "longitud"]
+            }
         },
         "conexiones": {
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
-                    "nodo_origen": {"type": "object"},
-                    "nodo_destino": {"type": "object"},
+                    "nodo_origen": {"type": "string"},
+                    "nodo_destino": {"type": "string"},
                     "distancia": {
                         "type": "array",
                         "items": {"type": "number"}
