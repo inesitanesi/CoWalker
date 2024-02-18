@@ -9,7 +9,7 @@ from Clases.clases import *
 
 class Viaje:
     def __init__(self):
-        self.caminos=""
+        self.caminos=[]
         self.nodos = []
         
     def set_nombre(self,nombre):
@@ -87,11 +87,11 @@ class Viaje:
             origen = shortest_path[i]
             destino = shortest_path[i+1]
             medio_transporte = None
-            for conexion in conexiones:
-                if (conexion['nodo_origen'] == origen and conexion['nodo_destino'] == destino) or \
-                (conexion['nodo_origen'] == destino and conexion['nodo_destino'] == origen):
+            for conexion in conexiones.values():
+                if (conexion.origen.nombre == origen and conexion.destino.nombre == destino) or \
+                (conexion.origen.nombre == destino and conexion.destino.nombre == origen):
                     # Obtener el índice del medio de transporte utilizado
-                    medio_transporte = conexion['medios_transporte'].index(min(filter(lambda x: x != -1, conexion['medios_transporte'])))
+                    medio_transporte = list(conexion.medios_transporte.values()).index(min(filter(lambda x: x != -1, conexion.medios_transporte.values())))
                     medios_transporte_camino.append((origen, destino, medio_transporte))
                     
                     # Modificar el costo si dos personas comparten un coche
@@ -113,24 +113,27 @@ class Viaje:
 
     def ejecutar(self):
         start_node = self.nodos
-        end_node = self.destino.nombre
+        end_node = self.destino
         grafo=Grafo()
+        grafo.nuevo_persona(end_node)
+        end_node = self.destino.nombre
         for nodo in start_node:
             grafo.nuevo_persona(nodo)
         grafo.conexiones_todas()
         for nodo in start_node:
             camino=""
             co2_optimized_distance, medios_transporte_camino = self.funcion_opt(grafo.nodos,grafo.conexiones, nodo.nombre, end_node)
-            camino+=f"Consumo óptimo para {nodo.nombre}:", co2_optimized_distance
+            print(co2_optimized_distance)
+            camino+=f"Consumo óptimo para {nodo.nombre}: "+str(co2_optimized_distance)+'\n'
             for origen, destino, medios_transporte in medios_transporte_camino:
                 if medios_transporte == 0:
-                    camino+=f"De {origen} a {destino}: andando -> "
+                    camino+=f"De {origen} a {destino}: andando -> \n"
                 elif medios_transporte == 1:
-                    camino+=f"De {origen} a {destino}: coche -> "
+                    camino+=f"De {origen} a {destino}: coche -> \n"
                 elif medios_transporte == 2:
-                    camino+=f"De {origen} a {destino}: tren -> "
+                    camino+=f"De {origen} a {destino}: tren -> \n"
                 elif medios_transporte == 3:
-                    camino+=f"De {origen} a {destino}: avión -> "
+                    camino+=f"De {origen} a {destino}: avión -> \n"
             self.caminos.append(camino)
 
 

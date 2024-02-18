@@ -157,7 +157,7 @@ class Grafo:
             for destino in self.nodos.values():
                 if origen.nombre != destino.nombre:
                     self.conexiones[origen.nombre+'-'+destino.nombre]=Conexion(origen,destino)
-                    print(f'{origen.nombre+'-'+destino.nombre}: ')
+                    print(f'{origen.nombre}'+'-'+f'{destino.nombre}: ')
                     print(self.conexiones[origen.nombre+'-'+destino.nombre].medios_transporte)
 
     
